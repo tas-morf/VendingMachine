@@ -7,7 +7,7 @@
     <string name="coke">Coke</string>
     <string name="how_many_items">How many items would you like to add to the stock?</string>
     <string name="ok">OK</string>
-    <string name="purchase_instructions">Each item costs £.2f. Please enter the correct amount or higher.</string>
+    <string name="purchase_instructions">Each item costs £%.2f. Please enter the correct amount or higher.</string>
     <string name="one_penny">1p</string>
     <string name="two_p">2p</string>
     <string name="five_p">5p</string>

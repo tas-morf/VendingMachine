@@ -58,7 +58,7 @@ public class PurchaseActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.two_pounds_button).setOnClickListener(this);
         mItemCost = getResources().getInteger(R.integer.item_cost_in_pennies);
         ((TextView)findViewById(R.id.purchase_prompt)).setText(getString(R.string.purchase_instructions,
-                mItemCost));
+                mItemCost/100f));
         mAmountInsertedText = (TextView)findViewById(R.id.amount_inserted_text);
         mAmountInsertedText.setText(getString(R.string.amount_inserted, 0f));
     }
