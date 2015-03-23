@@ -3,6 +3,8 @@ package com.vending.android.tests;
 import com.vending.android.R;
 import com.vending.android.controller.activity.MainActivity;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
@@ -20,7 +22,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        getActivity();
+        MainActivity activity = getActivity();
+        //make sure the preferences are clear
+        PreferenceManager.getDefaultSharedPreferences(activity).edit().clear().apply();
     }
 
     public void testShowsPurchaseButton() {
@@ -48,10 +52,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     }
 
     public void testClickingRestockShowsRestockPrompt() {
-
         Espresso.onView(ViewMatchers.withId(R.id.restock_button))
                 .perform(ViewActions.click());
-
         Espresso.onView(ViewMatchers.withText(R.string.how_many_items))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         

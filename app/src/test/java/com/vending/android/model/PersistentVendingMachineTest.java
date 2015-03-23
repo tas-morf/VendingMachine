@@ -34,7 +34,7 @@ public class PersistentVendingMachineTest {
     @Test
     public void usesTheSharedPreferencesToGetStockLevel() {
         //given
-        fakeSharedPreferences.put(PersistentVendingMachine.KEY_STOCK, 5);
+        fakeSharedPreferences.edit().putInt(PersistentVendingMachine.KEY_STOCK, 5);
         //then
         assertThat(sut.getStockLevel(), equalTo(5));
     }
@@ -42,9 +42,20 @@ public class PersistentVendingMachineTest {
     @Test
     public void usesTheSharedPreferencesToGetCashInPennies() {
         //given
-        fakeSharedPreferences.put(PersistentVendingMachine.KEY_CASH, 50);
+        fakeSharedPreferences.edit().putInt(PersistentVendingMachine.KEY_CASH, 50);
         //then
         assertThat(sut.getStoredCash(), equalTo(0.5f));
     }
 
+    @Test
+    public void addsStockToPreferences() {
+        //given
+        fakeSharedPreferences.edit().putInt(PersistentVendingMachine.KEY_STOCK, 5);
+        //when
+        sut.addStock(10);
+        //then
+        assertThat(sut.getStockLevel(), equalTo(15));
+    }
+
+    
 }

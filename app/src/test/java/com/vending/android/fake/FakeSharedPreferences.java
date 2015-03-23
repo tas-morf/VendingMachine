@@ -12,32 +12,7 @@ import java.util.Set;
 public class FakeSharedPreferences implements SharedPreferences {
 
     private Map<String, Object> mMap = new HashMap<>();    
-    
-    
-    public void put(String key, String value) {
-        mMap.put(key, value);
-    }
 
-    public void put(String key, int value) {
-        mMap.put(key, value);
-    }
-
-    public void put(String key, boolean value) {
-        mMap.put(key, value);
-    }
-
-    public void put(String key, Set<String> value) {
-        mMap.put(key, value);
-    }
-
-    public void put(String key, long value) {
-        mMap.put(key, value);
-    }
-
-    public void put(String key, float value) {
-        mMap.put(key, value);
-    }
-    
     @Override
     public Map<String, ?> getAll() {
         return mMap;
@@ -105,7 +80,7 @@ public class FakeSharedPreferences implements SharedPreferences {
     @Override
     public Editor edit() {
         //use the simpler interface we have for putting
-        return null;
+        return new FakeEditor();
     }
 
     @Override
@@ -118,5 +93,66 @@ public class FakeSharedPreferences implements SharedPreferences {
     public void unregisterOnSharedPreferenceChangeListener(
             OnSharedPreferenceChangeListener listener) {
         //do nothing
+    }
+
+    private class FakeEditor implements Editor {
+
+        @Override
+        public Editor putString(String key, String value) {
+            mMap.put(key, value);
+            return this;
+        }
+
+        @Override
+        public Editor putStringSet(String key, Set<String> values) {
+            mMap.put(key, values);
+            return this;
+        }
+
+        @Override
+        public Editor putInt(String key, int value) {
+            mMap.put(key, value);
+            return this;
+        }
+
+        @Override
+        public Editor putLong(String key, long value) {
+            mMap.put(key, value);
+            return this;
+        }
+
+        @Override
+        public Editor putFloat(String key, float value) {
+            mMap.put(key, value);
+            return this;
+        }
+
+        @Override
+        public Editor putBoolean(String key, boolean value) {
+            mMap.put(key, value);
+            return this;
+        }
+
+        @Override
+        public Editor remove(String key) {
+            mMap.remove(key);
+            return this;
+        }
+
+        @Override
+        public Editor clear() {
+            mMap.clear();
+            return this;
+        }
+
+        @Override
+        public boolean commit() {
+            return true;
+        }
+
+        @Override
+        public void apply() {
+
+        }
     }
 }
