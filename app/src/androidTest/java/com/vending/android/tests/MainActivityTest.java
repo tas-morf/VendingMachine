@@ -1,20 +1,13 @@
 package com.vending.android.tests;
 
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
-import com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions;
-import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
-
 import com.vending.android.R;
 import com.vending.android.controller.activity.MainActivity;
 
-import org.hamcrest.Matchers;
-
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.assertion.ViewAssertions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.test.ActivityInstrumentationTestCase2;
-
-import static com.vending.android.module.ApplicationModule.applicationContext;
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
@@ -52,5 +45,15 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         Espresso.onView(ViewMatchers.withId(R.id.stored_cash_text))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
                 .check(ViewAssertions.matches(ViewMatchers.withText("Stored Cash: £100.00")));
+    }
+
+    public void testClickingRestockShowsRestockPrompt() {
+
+        Espresso.onView(ViewMatchers.withId(R.id.restock_button))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withText(R.string.how_many_items))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        
     }
 }

@@ -8,4 +8,6 @@ public interface VendingMachine {
     int getStockLevel();
 
     float getStoredCash();
+
+    void addStock(int value);
 }

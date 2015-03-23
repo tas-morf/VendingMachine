@@ -4,6 +4,7 @@ import com.vending.android.R;
 import com.vending.android.model.VendingMachine;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -53,6 +54,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.purchase_button:
                 break;
             case R.id.restock_button:
+                startActivity(RestockActivity.getRestockIntent(this));
                 break;
         }
     }

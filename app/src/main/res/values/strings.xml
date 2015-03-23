@@ -5,4 +5,6 @@
     <string name="stock_level">Stock Level: %s</string>
     <string name="stored_cash">Stored Cash: £%.2f</string>
     <string name="coke">Coke</string>
+    <string name="how_many_items">How many items would you like to add to the stock?</string>
+    <string name="ok">OK</string>
 </resources>

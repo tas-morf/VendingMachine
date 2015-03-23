@@ -27,4 +27,10 @@ public class PersistentVendingMachine implements VendingMachine {
         int cashInPennies = mSharedPreferences.getInt(KEY_CASH, DEFAULT_CASH);
         return cashInPennies / 100f;
     }
+
+    @Override
+    public void addStock(int value) {
+        int existingStock = mSharedPreferences.getInt(KEY_STOCK, 0);
+        mSharedPreferences.edit().putInt(KEY_STOCK, existingStock + value).apply();
+    }
 }
