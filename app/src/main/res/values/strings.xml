@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Vending Machine</string>
+    <string name="restock">Restock</string>
+    <string name="purchase">Purchase</string>
+    <string name="stock_levels">Stock Levels:</string>
+    <string name="coke">Coke</string>
+</resources>
