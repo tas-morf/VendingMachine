@@ -1,16 +1,24 @@
 package com.vending.android.tests;
 
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
+import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
 import com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 import com.vending.android.R;
 import com.vending.android.controller.activity.MainActivity;
 
+import org.hamcrest.Matchers;
+
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
+import static com.vending.android.module.ApplicationModule.applicationContext;
+
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
-    
+
+
     public MainActivityTest() {
         super(MainActivity.class);
     }
@@ -34,9 +42,15 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
                 .check(ViewAssertions.matches(ViewMatchers.withText("Restock")));
     }
     
-    public void testShowsCokeStockLevels() {
-        Espresso.onView(ViewMatchers.withId(R.id.stock_levels_list))
+    public void testShowsEmptyStockLevel() {
+        Espresso.onView(ViewMatchers.withId(R.id.stock_level_text))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-                .check(ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.withText("Coke - 5"))));
+                .check(ViewAssertions.matches(ViewMatchers.withText("Stock Level: 0")));
+    }
+
+    public void testShowsAHundredPoundsStoredCash() {
+        Espresso.onView(ViewMatchers.withId(R.id.stored_cash_text))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+                .check(ViewAssertions.matches(ViewMatchers.withText("Stored Cash: £100.00")));
     }
 }

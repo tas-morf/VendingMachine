@@ -1,13 +1,11 @@
 package com.vending.android.model;
 
-import com.vending.android.model.bean.VendingItemStock;
-
-import java.util.List;
-
 /**
  * The interface of the vending machine.
  */
 public interface VendingMachine {
+    
+    int getStockLevel();
 
-    List<VendingItemStock> getStockLevels();
+    float getStoredCash();
 }

@@ -21,14 +21,19 @@
         android:text="@string/restock" />
 
     <TextView
+        android:id="@+id/stock_level_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/stock_levels"
+        android:text="@string/stock_level"
+        android:layout_margin="10dp"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/stored_cash_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stored_cash"
         android:layout_margin="10dp"
         android:textSize="18sp"/>
     
-    <ListView
-        android:id="@+id/stock_levels_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 </LinearLayout>

@@ -2,12 +2,11 @@ package com.vending.android.controller.activity;
 
 import com.vending.android.R;
 import com.vending.android.model.VendingMachine;
-import com.vending.android.view.adapter.StockLevelsAdapter;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import static com.vending.android.module.model.VendingMachineModule.vendingMachine;
 
@@ -20,7 +19,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private final VendingMachine mVendingMachine;
     
     //not injected
-    private ListView mStockLevelsList;
+    private TextView mStockLevelText;
+    private TextView mStoredCashText;
 
     public MainActivity() {
         this(vendingMachine());   
@@ -36,19 +36,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
         findViewById(R.id.purchase_button).setOnClickListener(this);
         findViewById(R.id.restock_button).setOnClickListener(this);
-        mStockLevelsList = (ListView)findViewById(R.id.stock_levels_list);
+        mStockLevelText = (TextView)findViewById(R.id.stock_level_text);
+        mStoredCashText = (TextView)findViewById(R.id.stored_cash_text);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        StockLevelsAdapter adapter = (StockLevelsAdapter) mStockLevelsList.getAdapter();
-        if(adapter == null) {
-            adapter = new StockLevelsAdapter(this, mVendingMachine.getStockLevels());
-            mStockLevelsList.setAdapter(adapter);
-        } else {
-            adapter.setData(mVendingMachine.getStockLevels());
-        }
+        mStockLevelText.setText(getString(R.string.stock_level, mVendingMachine.getStockLevel()));
+        mStoredCashText.setText(getString(R.string.stored_cash, mVendingMachine.getStoredCash()));
     }
 
     @Override

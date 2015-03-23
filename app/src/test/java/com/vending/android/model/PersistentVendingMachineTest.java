@@ -1,17 +1,12 @@
 package com.vending.android.model;
 
 import com.vending.android.fake.FakeSharedPreferences;
-import com.vending.android.model.bean.VendingItem;
-import com.vending.android.model.bean.VendingItemStock;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
 
 public class PersistentVendingMachineTest {
 
@@ -27,39 +22,29 @@ public class PersistentVendingMachineTest {
     }
 
     @Test
-    public void returnsEmptyListWhenPreferencesEmpty() {
-        //when
-        List<VendingItemStock> stockLevels = sut.getStockLevels();
-        //then
-        assertThat(stockLevels, hasSize(0));
+    public void returnsZeroStockWhenPreferencesEmpty() {
+        assertThat(sut.getStockLevel(), equalTo(0));
+    }
+
+    @Test
+    public void returnsAHundredCashWhenPreferencesEmpty() {
+        assertThat(sut.getStoredCash(), equalTo(100f));
     }
     
     @Test
-    public void usesTheSharedPreferencesToGetStockLevels() {
+    public void usesTheSharedPreferencesToGetStockLevel() {
         //given
-        fakeSharedPreferences.put(VendingItem.Coke.toString(), 5);
-        fakeSharedPreferences.put(VendingItem.Diet_Coke.toString(), 6);
-        //when
-        List<VendingItemStock> stockLevels = sut.getStockLevels();
+        fakeSharedPreferences.put(PersistentVendingMachine.KEY_STOCK, 5);
         //then
-        assertThat(stockLevels, hasSize(2));
-        assertThat(stockLevels.get(0).getStockSize(), equalTo(5));
-        assertThat(stockLevels.get(1).getStockSize(), equalTo(6));
-        assertThat(stockLevels.get(0).getVendingItem(), equalTo(VendingItem.Coke));
-        assertThat(stockLevels.get(1).getVendingItem(), equalTo(VendingItem.Diet_Coke));
+        assertThat(sut.getStockLevel(), equalTo(5));
     }
-
 
     @Test
-    public void omitsZeroStockItems() {
+    public void usesTheSharedPreferencesToGetCashInPennies() {
         //given
-        fakeSharedPreferences.put(VendingItem.Coke.toString(), 5);
-        fakeSharedPreferences.put(VendingItem.Diet_Coke.toString(), 0);
-        //when
-        List<VendingItemStock> stockLevels = sut.getStockLevels();
+        fakeSharedPreferences.put(PersistentVendingMachine.KEY_CASH, 50);
         //then
-        assertThat(stockLevels, hasSize(1));
-        assertThat(stockLevels.get(0).getStockSize(), equalTo(5));
-        assertThat(stockLevels.get(0).getVendingItem(), equalTo(VendingItem.Coke));
+        assertThat(sut.getStoredCash(), equalTo(0.5f));
     }
+
 }
