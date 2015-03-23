@@ -52,6 +52,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.purchase_button:
+                startActivity(PurchaseActivity.getPurchaseIntent(this));
                 break;
             case R.id.restock_button:
                 startActivity(RestockActivity.getRestockIntent(this));

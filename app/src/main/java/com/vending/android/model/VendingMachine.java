@@ -10,4 +10,6 @@ public interface VendingMachine {
     float getStoredCash();
 
     void addStock(int value);
+
+    boolean dispenseItem();
 }

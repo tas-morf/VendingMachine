@@ -7,4 +7,16 @@
     <string name="coke">Coke</string>
     <string name="how_many_items">How many items would you like to add to the stock?</string>
     <string name="ok">OK</string>
+    <string name="purchase_instructions">Each item costs £.2f. Please enter the correct amount or higher.</string>
+    <string name="one_penny">1p</string>
+    <string name="two_p">2p</string>
+    <string name="five_p">5p</string>
+    <string name="ten_p">10p</string>
+    <string name="twenty_p">20p</string>
+    <string name="fifty_p">50p</string>
+    <string name="one_pound">£1</string>
+    <string name="two_pounds">£2</string>
+    <string name="amount_inserted">Amount inserted: £%.2f</string>
+    <string name="purchase_success">Your purchase was successful. You\'ll receive £%.2f in change.</string>
+    <string name="purchase_failure">Purchase failed! Make sure the vending machine is well stocked.</string>
 </resources>
