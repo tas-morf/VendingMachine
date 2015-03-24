@@ -17,6 +17,8 @@ import static com.vending.android.module.view.ToasterModule.toaster;
 
 /**
  * Handles purchasing
+ * There's was no reason to separate this between a View and a Controller, since this is quite
+ * simple. If more functionality was added though, it would be worth splitting it up.
  */
 public class PurchaseActivity extends Activity implements View.OnClickListener {
 

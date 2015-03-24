@@ -5,7 +5,7 @@ import com.vending.android.model.exception.InsufficientStockException;
 import android.content.SharedPreferences;
 
 /**
- * Persists the stocks for vending
+ * Uses the SharedPreferences to save the stocks and cash for vending
  */
 public class PersistentVendingMachine implements VendingMachine {
 

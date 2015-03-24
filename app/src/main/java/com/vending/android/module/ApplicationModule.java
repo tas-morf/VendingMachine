@@ -10,6 +10,7 @@ import android.content.Context;
  */
 public class ApplicationModule {
 
+    //Notice how this is not a factory, but simply reuses a static instance
     private static VendingApplication mSVendingApplication;
 
     public static void setApplication(VendingApplication vendingApplication) {
