@@ -10,17 +10,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.util.ActivityController;
 
 import android.widget.TextView;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.robolectric.Robolectric.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
 public class PurchaseActivityTest {
@@ -40,55 +42,42 @@ public class PurchaseActivityTest {
     }
 
     @Test
-    public void showsCorrectItemCost() throws Exception {
-        ANDROID.assertThat((TextView)sut.findViewById(R.id.purchase_prompt))
-                .hasText("Each item costs £2.30. Please enter the correct amount or higher.");
-    }
-
-    @Test
-    public void showsZeroAmountInserted() throws Exception {
-        ANDROID.assertThat((TextView)sut.findViewById(R.id.amount_inserted_text))
-                .hasText("Amount inserted: £0.00");
-    }
-
-    @Test
-    public void onClickOnePennyAddsOnePenny() throws Exception {
-        //when
-        sut.onClick(sut.findViewById(R.id.one_penny_button));
-        //then
-        ANDROID.assertThat((TextView)sut.findViewById(R.id.amount_inserted_text))
-                .hasText("Amount inserted: £0.01");
-    }
-    
-    //... Add tests for the rest of the amount buttons, though this is covered by instrumentation
-
-    @Test
-    public void onClickOkWithNoStockDisplaysInsufficientStockToast() throws Exception {
+    public void onPurchaseWithNoStockDisplaysInsufficientStockToast() throws Exception {
         //given
         when(mockVendingMachine.dispenseItem(anyInt())).thenThrow(new InsufficientStockException());
         //when
-        sut.onClick(sut.findViewById(R.id.ok_button));
+        sut.onPurchaseItemRequested(10);
         //then
         verify(mockToaster).displayToast(R.string.insufficient_stock_failure);
     }
 
     @Test
-    public void onClickOkWithIncorrectAmountDisplaysInsufficientFundsToast() throws Exception {
+    public void onPurchaseWithIncorrectAmountDisplaysInsufficientFundsToast() throws Exception {
         //given
         when(mockVendingMachine.dispenseItem(anyInt())).thenReturn(-1);
         //when
-        sut.onClick(sut.findViewById(R.id.ok_button));
+        sut.onPurchaseItemRequested(10);
         //then
         verify(mockToaster).displayToast(R.string.insufficient_funds_failure);
     }
 
     @Test
-    public void onClickOkWithCorrectAmountDisplaysSuccessToast() throws Exception {
+    public void onPurchaseWithCorrectAmountDisplaysSuccessToast() throws Exception {
         //given
         when(mockVendingMachine.dispenseItem(anyInt())).thenReturn(1);
         //when
-        sut.onClick(sut.findViewById(R.id.ok_button));
+        sut.onPurchaseItemRequested(10);
         //then
         verify(mockToaster).displayToast(eq(sut.getString(R.string.purchase_success, 0.01f)));
+    }
+
+    @Test
+    public void onPurchaseWithCorrectAmountFinishesActivity() throws Exception {
+        //given
+        when(mockVendingMachine.dispenseItem(anyInt())).thenReturn(1);
+        //when
+        sut.onPurchaseItemRequested(10);
+        //then
+        assertThat(shadowOf(sut).isFinishing(), equalTo(true));
     }
 }
