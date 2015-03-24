@@ -45,7 +45,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onStart() {
         super.onStart();
         mStockLevelText.setText(getString(R.string.stock_level, mVendingMachine.getStockLevel()));
-        mStoredCashText.setText(getString(R.string.stored_cash, mVendingMachine.getStoredCash()));
+        mStoredCashText.setText(getString(R.string.stored_cash, mVendingMachine.getStoredCash()/100f));
     }
 
     @Override

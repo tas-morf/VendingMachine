@@ -1,5 +1,7 @@
 package com.vending.android.model;
 
+import com.vending.android.model.exception.InsufficientStockException;
+
 import android.content.SharedPreferences;
 
 /**
@@ -25,9 +27,8 @@ public class PersistentVendingMachine implements VendingMachine {
     }
 
     @Override
-    public float getStoredCash() {
-        int cashInPennies = mSharedPreferences.getInt(KEY_CASH, DEFAULT_CASH);
-        return cashInPennies / 100f;
+    public int getStoredCash() {
+        return mSharedPreferences.getInt(KEY_CASH, DEFAULT_CASH);
     }
 
     @Override
@@ -36,16 +37,18 @@ public class PersistentVendingMachine implements VendingMachine {
     }
 
     @Override
-    public boolean dispenseItem() {
+    public int dispenseItem(int penniesInserted) throws InsufficientStockException {
         int stockLevel = getStockLevel();
-        int cashInPennies = mSharedPreferences.getInt(KEY_CASH, DEFAULT_CASH);
-        if(stockLevel > 0) {
+        int resultingChange = penniesInserted - mItemCostInPennies;
+        if(stockLevel <= 0) {
+            throw new InsufficientStockException();
+        } else if (resultingChange > 0) {
             mSharedPreferences.edit()
                     .putInt(KEY_STOCK, stockLevel-1)
-                    .putInt(KEY_CASH, cashInPennies + mItemCostInPennies)
+                    .putInt(KEY_CASH, getStoredCash() + mItemCostInPennies)
                     .apply();
-            return true;
-        } 
-        return false;
+        }
+        return resultingChange;
+        
     }
 }

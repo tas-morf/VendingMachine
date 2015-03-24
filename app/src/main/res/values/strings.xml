@@ -18,5 +18,6 @@
     <string name="two_pounds">£2</string>
     <string name="amount_inserted">Amount inserted: £%.2f</string>
     <string name="purchase_success">Your purchase was successful. You\'ll receive £%.2f in change.</string>
-    <string name="purchase_failure">Purchase failed! Make sure the vending machine is well stocked.</string>
+    <string name="insufficient_stock_failure">Insufficient stock! Make sure the vending machine is well stocked.</string>
+    <string name="insufficient_funds_failure">Insufficient funds! Please enter the correct amount or more.</string>
 </resources>

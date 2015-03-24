@@ -2,6 +2,7 @@ package com.vending.android.controller.activity;
 
 import com.vending.android.R;
 import com.vending.android.model.VendingMachine;
+import com.vending.android.model.exception.InsufficientStockException;
 import com.vending.android.view.Toaster;
 
 import android.app.Activity;
@@ -23,7 +24,6 @@ public class PurchaseActivity extends Activity implements View.OnClickListener {
     private final Toaster mToaster;
 
     private TextView mAmountInsertedText;
-    private View mOkButton;
 
     private int mCurrentAmountInPennies;
     private int mItemCost;
@@ -45,9 +45,7 @@ public class PurchaseActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase);
-        mOkButton = findViewById(R.id.ok_button);
-        mOkButton.setEnabled(false);
-        mOkButton.setOnClickListener(this);
+        findViewById(R.id.ok_button).setOnClickListener(this);
         findViewById(R.id.one_penny_button).setOnClickListener(this);
         findViewById(R.id.two_penny_button).setOnClickListener(this);
         findViewById(R.id.five_penny_button).setOnClickListener(this);
@@ -97,20 +95,24 @@ public class PurchaseActivity extends Activity implements View.OnClickListener {
     }
 
     private void purchaseItem() {
-        
-        boolean result = mVendingMachine.dispenseItem();
-        if(result) {
-            mToaster.displayToast(getString(R.string.purchase_success,
-                    (mCurrentAmountInPennies - mItemCost) / 100f));
-        } else {
-            mToaster.displayToast(R.string.purchase_failure);
+        try {
+            int resultingChange = mVendingMachine.dispenseItem(mCurrentAmountInPennies);
+            if(resultingChange > 0) {
+                mToaster.displayToast(getString(R.string.purchase_success,
+                        resultingChange / 100f));
+                finish();
+            } else {
+                mToaster.displayToast(R.string.insufficient_funds_failure);
+            }
+        } catch (InsufficientStockException e) {
+            mToaster.displayToast(R.string.insufficient_stock_failure);
         }
-        finish();
+
     }
 
     private void addPennies(int pennies) {
         mCurrentAmountInPennies +=pennies;
-        mAmountInsertedText.setText(getString(R.string.amount_inserted, mCurrentAmountInPennies/100f));
-        mOkButton.setEnabled(mCurrentAmountInPennies >= mItemCost);
+        mAmountInsertedText.setText(
+                getString(R.string.amount_inserted, mCurrentAmountInPennies / 100f));
     }
 }
